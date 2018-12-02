@@ -17,14 +17,16 @@ BlogPosts.create(
 
 // send back JSON representation of all BlogPosts
 // on GET requests to root
-app.get('/blog-posts', (req, res) => {
+router.get('/', (req, res) => {
+  console.log("working GET");
     res.json(BlogPosts.get());
+    // res.json("working GET");
   });
 
   // when new blog post is added, ensure has required fields. if not,
 // log error and return 400 status code with hepful message.
 // if okay, add new item, and return it with a status 201.
-app.post('/blog-posts', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
     // ensure `title` is in request body
     const requiredFields = ['title'];
     for (let i=0; i<requiredFields.length; i++) {
@@ -40,7 +42,7 @@ app.post('/blog-posts', jsonParser, (req, res) => {
   });
   
   // Delete BlogPosts (by id)!
-  app.delete('/blog-posts/:id', (req, res) => {
+  router.delete('/:id', (req, res) => {
     BlogPosts.delete(req.params.id);
     console.log(`Deleted blog post item \`${req.params.ID}\``);
     res.status(204).end();
@@ -51,7 +53,7 @@ app.post('/blog-posts', jsonParser, (req, res) => {
   // recipe id in updated item object match. if problems with any
   // of that, log error and send back status code 400. otherwise
   // call `BlogPosts.updateItem` with updated recipe.
-  app.put('/blog-posts/:id', jsonParser, (req, res) => {
+  router.put('/:id', jsonParser, (req, res) => {
     const requiredFields = ['title', 'id'];
     for (let i=0; i<requiredFields.length; i++) {
       const field = requiredFields[i];
