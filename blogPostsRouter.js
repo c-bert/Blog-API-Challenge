@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 // if okay, add new item, and return it with a status 201.
 router.post('/', jsonParser, (req, res) => {
     // ensure `title` is in request body
-    const requiredFields = ['title'];
+    const requiredFields = ['title', 'content', 'author'];
     for (let i=0; i<requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
@@ -37,7 +37,7 @@ router.post('/', jsonParser, (req, res) => {
         return res.status(400).send(message);
       }
     }
-    const item = BlogPosts.create(req.body.title, req.body.ingredients);
+    const item = BlogPosts.create(req.body.title, req.body.content, req.body.author);
     res.status(201).json(item);
   });
   
