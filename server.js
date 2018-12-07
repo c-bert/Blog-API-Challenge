@@ -59,6 +59,7 @@ function closeServer() {
         // so we don't also call `resolve()`
         return;
       }
+      //completes Promise
       resolve();
     });
   });
@@ -69,5 +70,6 @@ function closeServer() {
 if (require.main === module) {
   runServer().catch(err => console.error(err));
 }
-
+//module represents current file
+//destructuring
 module.exports = { app, runServer, closeServer };
