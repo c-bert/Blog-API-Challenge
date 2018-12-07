@@ -1,5 +1,6 @@
 // import chai, declare expect variable
-const expect = require("chai").expect;
+const chai = require("chai");
+const expect = chai.expect;
 const chaiHttp = require("chai-http");
 //using these for controls
 //destructuring modules
