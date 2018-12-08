@@ -48,13 +48,13 @@ router.post('/', jsonParser, (req, res) => {
     res.status(204).end();
   });
   
-  // when PUT request comes in with updated recipe, ensure has
-  // required fields. also ensure that recipe id in url path, and
-  // recipe id in updated item object match. if problems with any
+  // when PUT request comes in with updated Blog Post, ensure has
+  // required fields. also ensure that Blog Post id in url path, and
+  // Blog Post id in updated item object match. if problems with any
   // of that, log error and send back status code 400. otherwise
-  // call `BlogPosts.updateItem` with updated recipe.
+  // call `BlogPosts.updateItem` with updated Blog Post.
   router.put('/:id', jsonParser, (req, res) => {
-    const requiredFields = ['title', 'id'];
+    const requiredFields = ['title', 'content', 'author', 'id'];
     for (let i=0; i<requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {

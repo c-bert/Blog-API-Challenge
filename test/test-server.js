@@ -17,9 +17,25 @@ describe('CRUD blog posts', function(){
     after(function(){
         return closeServer();
     });
-
-
-
+//________________GET TEST_______________________
+        it ('GET should grab blog posts on request', function() {
+            return chai
+            .request(app)
+            .get("/")
+            .then(function(res){
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body).to.be.a("array");
+                //because we create 2 posts upon load
+                expect(res.body.length).to.be.at.least(1);
+                const expectedKeys = ["title", "content", "author", "publishDate"];
+                res.body.forEach(function(item) {
+                    expect(item).to.be.a("object");
+                    expect(item).to.include.keys(expectedKeys);
+                  });
+            })
+        });
+//__________POST TEST_______________
         it('POST should have a title, author, and content', function(){
             const normalBlogPost =
                 {title: "Dogs are great", content:"Woof Woof", author: "Kitty"};
@@ -41,4 +57,41 @@ describe('CRUD blog posts', function(){
                 );
             });
         });
+//_________PUT TEST_____________________        
+    it ('PUT should update blog posts', function(){
+        const updateBlog = {title: "huskies are an example of working dog breeds", content: "huskies were breed to run sleighs in cold temperatures. Pure bred huskies can survive in -20F!", author:"Kitty"};
+        
+        return (
+            chai
+                .request(app)
+                //first we need to GET so we know what we need to update
+                .get("/")
+                .then(function(res) {
+                    updateBlog.id = res.body[0].id
+                    //returns a promoise whose value will be the response object
+                return chai
+                    .request(app)
+                    .put(`//${updateBlog.id}`)
+                    .send(updateBlog);   
+                })
+                .then(function(res){
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.json;
+                    expect(res.body).to.be.a("object");
+                    expect(res.body).to.deep.equals(updateBlog);
+                })
+        )
+    });
+//____________DELETE___________________________         
+    it ("DELETE should remove blog post by ID", function() {
+        return (
+            chai
+            .request(app)
+            //first we have to make a GET request so we know what to delete
+            .get("/")
+            .then(function(res){
+                expect(res).to.have.status(204);
+            })
+        );
+    });      
 });
