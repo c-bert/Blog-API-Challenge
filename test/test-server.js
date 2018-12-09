@@ -9,19 +9,19 @@ const { app, runServer, closeServer } = require("../server");
 chai.use(chaiHttp);
 
 describe('CRUD blog posts', function(){
-
+//only need these to SEED my database
     before(function(){
         //we need to start our server b4 we can run tests
-        return runServer();
+        // return runServer();
     });
     after(function(){
-        return closeServer();
+        // return closeServer();
     });
 //________________GET TEST_______________________
         it ('GET should grab blog posts on request', function() {
             return chai
             .request(app)
-            .get("/")
+            .get("/blog-posts")
             .then(function(res){
                 expect(res).to.have.status(200);
                 expect(res).to.be.json;
@@ -42,7 +42,7 @@ describe('CRUD blog posts', function(){
 
             return chai
             .request(app)
-            .post("/")
+            .post("/blog-posts")
             .send(normalBlogPost)
             //then is our Promise
             //send our normal blog post to our test
@@ -65,7 +65,7 @@ describe('CRUD blog posts', function(){
             chai
                 .request(app)
                 //first we need to GET so we know what we need to update
-                .get("/")
+                .get("/blog-posts")
                 .then(function(res) {
                     updateBlog.id = res.body[0].id
                     //returns a promoise whose value will be the response object
@@ -88,7 +88,7 @@ describe('CRUD blog posts', function(){
             chai
             .request(app)
             //first we have to make a GET request so we know what to delete
-            .get("/")
+            .get("/blog-posts")
             .then(function(res){
                 expect(res).to.have.status(204);
             })

@@ -10,10 +10,10 @@ app.use(morgan('common'));
 
 // app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html');
-  // res.json('working');
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/views/index.html');
+//   // res.json('working');
+// });
 
 
 // when requests come into `/blog-posts` we'll route them to the express
