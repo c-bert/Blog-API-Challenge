@@ -53,7 +53,8 @@ describe('CRUD blog posts', function(){
                 expect(res.body).to.include.keys("id", "title", "content", "author", "publishDate");
                 expect(res.body.id).to.not.equal(null);
                 //deep equal takes "a deeper look" at the response properties
-                expect(res.body).to.deep.equal(Object.assign(normalBlogPost, {id: res.body.id})
+                console.log("this is POST response body " + res.body);
+                expect(res.body).to.deep.equal(Object.assign(normalBlogPost, {id: res.body.id, publishDate: res.body.publishDate})
                 );
             });
         });
@@ -68,10 +69,11 @@ describe('CRUD blog posts', function(){
                 .get("/blog-posts")
                 .then(function(res) {
                     updateBlog.id = res.body[0].id
-                    //returns a promoise whose value will be the response object
+                    console.log("PUT res ID " + updateBlog.id);
+                    //returns a promise whose value will be the response object
                 return chai
                     .request(app)
-                    .put(`//${updateBlog.id}`)
+                    .put(`/blog-posts/${updateBlog.id}`)
                     .send(updateBlog);   
                 })
                 .then(function(res){
